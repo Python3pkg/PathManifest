@@ -369,7 +369,7 @@ class Manifest(object):
         (patch_info_filename, patch_info) = \
             self.__write_patch_info(patch_name, patch_files_info, temp_path)
 
-        files_to_include = [patch_info_filename] + patch_files_info.keys()
+        files_to_include = [patch_info_filename] + list(patch_files_info.keys())
 
         try:
             patch_filepath = \
@@ -404,7 +404,7 @@ class Manifest(object):
 
     def get_hashes_for_files_in_patch(self, patch_info):
         hashes = {}
-        for rel_filepath in patch_info['files'].keys():
+        for rel_filepath in list(patch_info['files'].keys()):
             hash_ = self.__get_md5_for_rel_filepath(rel_filepath)
             hashes[rel_filepath] = hash_
 
@@ -425,7 +425,7 @@ class Manifest(object):
                 patch_info = json.load(f)
                 patches.append(patch_info)
 
-                rel_filepaths = patch_info['files'].keys()
+                rel_filepaths = list(patch_info['files'].keys())
                 affected_rel_filepaths_s.update(set(rel_filepaths))
 
         return (patches, list(affected_rel_filepaths_s))
